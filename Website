@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYREX DARK NEWS</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#080808;
+ color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#111;
+ border-bottom:2px solid red;
+ text-align:center;
+ padding:25px 10px;
+}
+header h1{
+ color:red;
+ font-size:32px;
+ margin:0;
+ letter-spacing:3px;
+ text-shadow:0 0 12px red;
+}
+header p{color:#aaa;letter-spacing:3px}
+#clock{color:red;margin-top:12px}
+nav{
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ background:#171717;
+}
+nav button{
+ background:none;
+ border:0;
+ color:white;
+ padding:15px;
+ cursor:pointer;
+}
+nav button:hover{background:red}
+.container{max-width:1000px;margin:auto;padding:15px}
+h2{color:red;border-bottom:1px solid #333;padding-bottom:10px}
+input,textarea{
+ width:100%;
+ padding:13px;
+ margin:8px 0;
+ background:#181818;
+ color:white;
+ border:1px solid #444;
+ border-radius:5px;
+}
+.card{
+ background:#151515;
+ padding:18px;
+ margin:15px 0;
+ border-left:3px solid red;
+ border-radius:5px;
+}
+.card h3{color:#ff3333}
+.card small{color:#888}
+.card p{line-height:1.6}
+.admin{
+ background:#151515;
+ padding:18px;
+ margin-top:30px;
+ border:1px solid #333;
+}
+.btn{
+ background:red;
+ color:white;
+ border:0;
+ padding:12px 20px;
+ border-radius:5px;
+ cursor:pointer;
+ margin:5px;
+}
+footer{
+ text-align:center;
+ padding:25px;
+ color:#777;
+ border-top:1px solid #333;
+ margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>☠ SYREX</h1>
+<p>DARK NEWS NETWORK</p>
+<p>POWERED BY SAHRIYAR</p>
+<div id="clock"></div>
+</header>
+
+<nav>
+<button onclick="showNews('All')">All News</button>
+<button onclick="showNews('Bangladesh')">Bangladesh</button>
+<button onclick="showNews('World')">World</button>
+<button onclick="showNews('Technology')">Technology</button>
+<button onclick="showNews('Cyber')">Cyber News</button>
+</nav>
+
+<div class="container">
+
+<h2>🔴 BREAKING NEWS</h2>
+
+<input id="search" placeholder="Search news..." oninput="showNews()">
+
+<div id="newsList"></div>
+
+<div class="admin">
+<h2>☠ ADMIN PANEL</h2>
+
+<input id="password" type="password" placeholder="Admin password">
+<button class="btn" onclick="login()">Login</button>
+
+<div id="panel" style="display:none">
+
+<input id="title" placeholder="News title">
+
+<textarea id="description" placeholder="News details"></textarea>
+
+<input id="category" placeholder="Category: Bangladesh, World, Technology, Cyber">
+
+<button class="btn" onclick="addNews()">Publish News</button>
+
+</div>
+</div>
+
+</div>
+
+<footer>
+☠ SYREX DARK NEWS NETWORK ☠
+<br><br>
+© 2026 All Rights Reserved
+</footer>
+
+<script>
+let news = [
+{
+ title:"Welcome to SYREX DARK NEWS",
+ category:"Technology",
+ description:"Welcome to our official news network. Stay updated with the latest news."
+}
+];
+
+let currentCategory="All";
+
+function showNews(category){
+ if(category) currentCategory=category;
+
+ let search=document.getElementById("search").value.toLowerCase();
+
+ let list=news.filter(n=>
+ (currentCategory==="All" || n.category.toLowerCase()===currentCategory.toLowerCase())
+ && (n.title.toLowerCase().includes(search) || n.description.toLowerCase().includes(search))
+ );
+
+ document.getElementById("newsList").innerHTML=list.map(n=>`
+ <div class="card">
+ <small>${n.category}</small>
+ <h3>${n.title}</h3>
+ <p>${n.description}</p>
+ </div>
+ `).join("") || "<p>No news found.</p>";
+}
+
+function login(){
+ if(document.getElementById("password").value==="SYREX123"){
+ document.getElementById("panel").style.display="block";
+ alert("Admin Login Successful!");
+ }else{
+ alert("Wrong Password!");
+ }
+}
+
+function addNews(){
+ let title=document.getElementById("title").value;
+ let description=document.getElementById("description").value;
+ let category=document.getElementById("category").value;
+
+ if(!title || !description || !category){
+ alert("Fill all fields!");
+ return;
+ }
+
+ news.unshift({title,description,category});
+ showNews();
+
+ document.getElementById("title").value="";
+ document.getElementById("description").value="";
+ document.getElementById("category").value="";
+
+ alert("News Published!");
+}
+
+function updateClock(){
+ document.getElementById("clock").innerText=new Date().toLocaleString();
+}
+
+setInterval(updateClock,1000);
+updateClock();
+showNews();
+</script>
+<div class="admin">
+<h2>☠ SYREX ADMIN LOGIN</h2>
+
+<input type="text" id="adminUser" placeholder="Username">
+<input type="password" id="adminPass" placeholder="Password">
+
+<button class="btn" onclick="adminLogin()">LOGIN</button>
+
+<p id="loginMessage"></p>
+</div>
+
+<script>
+function adminLogin(){
+ const user = document.getElementById("adminUser").value;
+ const pass = document.getElementById("adminPass").value;
+
+ if(user === "syrex" && pass === "sahriyar@928500"){
+ alert("Welcome SYREX ADMIN!");
+ document.getElementById("loginMessage").innerText="Login Successful!";
+ } else {
+ document.getElementById("loginMessage").innerText="Wrong Username or Password!";
+ }
+}
+</script>
+</body>
+</html>
